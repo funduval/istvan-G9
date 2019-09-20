@@ -7,17 +7,33 @@ import './App.css';
 class App extends Component {
 
   constructor (props) {
+
     super(props);
-    this.state = { apiResponse: '' };
+    
+    this.state = { 
+      apiResponse: '',
+      dbResponse: ''
+    };
 }
 
       callAPI() {
           fetch("http://localhost:9000/testAPI")
-              .then(res => res.text())
+              .then(res => res.text())yield
               .then(res => this.setState({ apiResponse: res }));
       }
-      componentWillMount() {
+
+      callDB() {
+        fetch("http://localhost:9000/testDB")
+            .then(res => res.text())
+            .then(res => this.setState({ dbResponse: res
+            }))
+            .catch(err => err);
+      }
+
+      componentDidMount() {
           this.callAPI();
+          this.callDB();
+
       }
 
   render() {
@@ -29,6 +45,9 @@ class App extends Component {
         <img src={logoBlack} className="App-logo" alt="logo" />
         <div className="App-owner"> <span>for</span> group nine media</div>
         <p className="App-intro">{this.state.apiResponse}</p>
+        <p className="App-intro">{this.state.dbResponse}</p>
+        {/* <p className="App-intro">{this.state.videoDBResponse}</p> */}
+
         <footer className="App-dev">
           <div>Funda Istvan, 2019</div>
         </footer>
