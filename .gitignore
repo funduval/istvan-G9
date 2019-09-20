@@ -6,4 +6,8 @@ node_modules
 /.env
 .env
 
+./.data-node
+/.data-node
+.data-node
+
 .DS_Store
