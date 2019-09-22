@@ -4,28 +4,28 @@
 
 
  var VideoSchema = new Schema({
- name: {
+  name: {
      type: String,
-     required: 'Enter the name of the video'
+     default: "This video belongs to Group Nine"
    },
- publish_date: {
+  publish_date: {
      type: Date,
      default: Date.now
    },
- brand: {
+  brand: {
      type: String,
-     default: 'group_nine'
+     default: "group_nine"
    },
- views: {
-     viewed: {
+  viewed: {
          type: Boolean,
+         required:true,
          default: false
-         },
-     count: {
+  },
+  count: {
          type: String,
+         required:true,
          default: '0'
-       }
-   }
+  }
  })
 
 
