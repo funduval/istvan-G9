@@ -26,11 +26,14 @@ router.get('/', function(req, res) {
 
 router.post('/createVideo', (req, res) => {
   var new_video = new Video();
-  const { name, publish_date, brand } = req.body;
+  
+  const { name, publish_date, brand, viewed, count } = req.body;
 
   new_video.name = name;
   new_video.publish_date = publish_date;
   new_video.brand = brand;
+  new_video.viewed = viewed;
+  new_video.count = count;
 
   new_video.save((err) => {
     if (err) return res.json({ success: false, error: err });
