@@ -6,17 +6,17 @@ var Video = require('./video');
 const mongoose = require("mongoose");
 
 
-router.get('/', function(req, res) {
-    Video.find({}, function(err, video) {
-      if (err)
-        res.send(err);
-      res.json(video);
-    });
- });
+router.get('/', function (req, res) {
+  Video.find({}, function (err, video) {
+    if (err)
+      res.send(err);
+    res.json(video);
+  });
+});
 
 
- router.get('/getVideos', function(req, res) {
-  Video.find({}, function(err, video) {
+router.get('/getVideos', function (req, res) {
+  Video.find({}, function (err, video) {
     if (err)
       res.send(err);
     res.json(video);
@@ -25,33 +25,27 @@ router.get('/', function(req, res) {
 
 
 router.post('/createVideo', (req, res) => {
-  var new_video = new Video();
-  
-  const { name, publish_date, brand, viewed, count } = req.body;
 
-  new_video.name = name;
-  new_video.publish_date = publish_date;
-  new_video.brand = brand;
-  new_video.viewed = viewed;
-  new_video.count = count;
-
-  new_video.save((err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
+  var new_video = new Video(req.body);
+  new_video.save(function (err, video) {
+    if (err)
+      res.send(err);
+    res.json(video);
   });
 });
 
-router.post('/updateData', (req, res) => {
-  const { id, update } = req.body;
+
+
+router.post('/updateVideo', (req, res) => {
+  const { name, publish_date, brand } = req.body;
   Data.findByIdAndUpdate(id, update, (err) => {
     if (err) return res.json({ success: false, error: err });
     return res.json({ success: true });
   });
 });
 
-router.delete('/deleteData', (req, res) => {
-  const { id } = req.body;
-  Data.findByIdAndRemove(id, (err) => {
+router.delete('/deleteVideo', (req, res) => {
+  Video.remove(req.params, (err) => {
     if (err) return res.send(err);
     return res.json({ success: true });
   });
