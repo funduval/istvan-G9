@@ -44,19 +44,29 @@ class App extends Component {
       };
 
 
-      handleCreateSubmit (event) {
+      handleCreateSubmit = (event) => {
         event.preventDefault();
         var data = new FormData(event.target);
         var object = {};
         data.forEach((value, key) => {object[key] = value});
         var json = JSON.stringify(object);
 
-        console.log("this is what the data looks like if you " + json)
-       
+        console.log("this is what the data looks like if you're data " + object) 
+
         axios.post('http://localhost:9000/api/createVideo', {
-          body: json,
+          body:json,
         });
       }
+
+     
+
+
+
+
+
+
+
+
       handleUpdateSubmit (event) {
         event.preventDefault();
         var data = new FormData(event.target);
@@ -68,8 +78,7 @@ class App extends Component {
        
       
           axios.post('http://localhost:3001/api/updateData', {
-            id: objIdToUpdate,
-            update: { message: updateToApply },
+         
           });
       
       }
@@ -78,7 +87,6 @@ class App extends Component {
        
         axios.delete('http://localhost:3001/api/deleteData', {
           data: {
-            id: objIdToDelete,
           },
         });
       }
