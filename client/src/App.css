@@ -81,15 +81,6 @@
 }
 
 
-.App-dev{
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  position: absolute;
-  color:darkgrey;
-  bottom:3%;
-  left:20px;
-  
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 180px;
