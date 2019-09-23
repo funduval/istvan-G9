@@ -11,7 +11,7 @@ const dbAuth = process.env.DB_AUTH;
 let databaseConnection = 'Waiting for Database response...';
 
 
-mongoose.connect("mongodb://" + dbAuth + "@ds229878.mlab.com:29878/funda-test", {
+mongoose.connect("mongodb://"+ dbAuth +"@ds229878.mlab.com:29878/funda-test", {
     useNewUrlParser: true, useUnifiedTopology: true
 })
 

@@ -55,8 +55,8 @@ class App extends Component {
 
   handleCreateSubmit(event) {
     event.preventDefault();
-    const data = new FormData(event.target);
-    let object = {};
+    var data = new FormData(event.target);
+    var object = {};
 
     data.forEach((value, key) => { object[key] = value });
 
@@ -67,12 +67,12 @@ class App extends Component {
   }
 
   handleUpdateSubmit(event) {
-      const data = new FormData(event.target);
-      let object = {};
+      var data = new FormData(event.target);
+      var object = {};
 
       data.forEach((value, key) => { object[key] = value });
-      let objIdToUpdate = object._id;
-      let views = object.count + 1;
+      var objIdToUpdate = object._id;
+      var views = object.count + 1;
      
       axios.post("http://localhost:9000/api/updateVideo", {
         _id: objIdToUpdate,
@@ -83,12 +83,12 @@ class App extends Component {
   
 
   handleDeleteSubmit(event) {
-    const data = new FormData(event.target);
-    let object = {};
+    var data = new FormData(event.target);
+    var object = {};
 
     data.forEach((value, key) => { object[key] = value });
 
-    let objIdToDelete = object._id;
+    var objIdToDelete = object._id;
 
     axios.delete('http://localhost:9000/api/deleteVideo', {
       params: {
@@ -100,12 +100,12 @@ class App extends Component {
   handleReportSubmit(event) {
     event.preventDefault();
 
-    const data = new FormData(event.target);
-    let object = {};
+    var data = new FormData(event.target);
+    var object = {};
 
     data.forEach((value, key) => { object[key] = value });
 
-    let idLookup = object._id
+    var idLookup = object._id
 
     axios.get('http://localhost:9000/api/getVideos', {
         params: {
@@ -127,7 +127,7 @@ class App extends Component {
   }
 
   render() {
-    const { videoData } = this.state;
+    var { videoData } = this.state;
 
     return (
             <div className="App">
@@ -150,7 +150,7 @@ class App extends Component {
                   </div>
                   <div className="col-md-3">
                     <form onSubmit={this.handleUpdateSubmit}>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label htmlFor="name">View A Video</label>
                       <input id="_id" name="_id" type="text" placeholder="Enter Video ID"/>
                       <button className="btn btn-info">View</button>
@@ -159,7 +159,7 @@ class App extends Component {
                   </div>
                   <div className="col-md-3">
                     <form onSubmit={this.handleReportSubmit}>
-                    <div class="form-group">
+                    <div className="form-group">
                       <label htmlFor="name">Run a Report</label>
                       <input id="name" name="name" type="text" placeholder="Enter Video ID" />
                       <button className="btn btn-warning">Report</button>
@@ -181,7 +181,7 @@ class App extends Component {
                     <h2>MOST POPULAR VIDEOS</h2>
                     <ul>
                       {videoData.length <= 0 ? "NO DB ENTRIES YET" : videoData.map(video => (
-                        <li class="list-item" style={{listStyleType: "none", textAlign: "left" }} key={video._id}>
+                        <li className="list-item" style={{listStyleType: "none", textAlign: "left" }} key={video._id}>
                           <span style={{ color: "gray" }}> id: </span> {video._id} <br />
                           <span style={{ color: "gray" }}> name: </span> {video.name} <br />
                           <span style={{ color: "gray" }}> data: </span> {video.brand} <br />
