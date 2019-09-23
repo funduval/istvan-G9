@@ -37,10 +37,11 @@ router.post('/createVideo', (req, res) => {
 
 
 router.post('/updateVideo', (req, res) => {
-  const { name, publish_date, brand } = req.body;
-  Data.findByIdAndUpdate(id, update, (err) => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
+
+  Video.findOneAndUpdate({_id: req.params.videoId}, req.body, {new: true}, function(err, task) {
+    if (err)
+      res.send(err);
+    res.json(task);
   });
 });
 
