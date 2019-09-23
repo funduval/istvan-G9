@@ -20,8 +20,6 @@
 
 `npm install`
 
->express app is listening on port 9000`
-
 `cd ..`
 
 `cd client`
