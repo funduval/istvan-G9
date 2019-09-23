@@ -8,7 +8,7 @@
 `mongodb://test-user:t35tpw0rd@ds229878.mlab.com:29878/funda-test
 `
 
->The above mongo db instance works in the app, without the need for a docker build.
+>The above mongo db instance works in the app.
 
 ### It Works On My Machine
 
