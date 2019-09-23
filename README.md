@@ -42,4 +42,5 @@ docker-compose up
 ######I am sorry to submit an unfinished project after so much progress but I do have coding obligations at work, and I can't commit any further to this. I appreciate the time and consideration you extended to me. Thank you for the opportunity to challenge myself in this way--it will prove very useful!!!!
 
 Best wishes,
+
 Funda Istvan
