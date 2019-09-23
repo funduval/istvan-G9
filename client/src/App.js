@@ -3,6 +3,10 @@ import logoBlack from './g9.png';
 import logoWhite from './g9-white.png';
 import './App.css';
 import axios from "axios";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import $ from 'jquery';
+import Popper from 'popper.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 class App extends Component {
 
@@ -19,7 +23,9 @@ class App extends Component {
       apiResponse: '',
       dbResponse: '',
       intervalIsSet: false,
-      videoData: []
+      videoData: [],
+      videoViews:'',
+      videoId:""
     };
 
   }
@@ -40,16 +46,18 @@ class App extends Component {
   }
 
   getVideosFromDb = () => {
-    fetch("http://localhost:9000/api/getVideos")
+
+      fetch("http://localhost:9000/api/getVideos")
       .then(res => res.json())
       .then(res => this.setState({ videoData: res }));
-  };
 
+  }
 
   handleCreateSubmit(event) {
     event.preventDefault();
-    var data = new FormData(event.target);
-    var object = {};
+    const data = new FormData(event.target);
+    let object = {};
+
     data.forEach((value, key) => { object[key] = value });
 
     console.log("object is", object)
@@ -58,39 +66,62 @@ class App extends Component {
 
   }
 
-
-
   handleUpdateSubmit(event) {
+      const data = new FormData(event.target);
+      let object = {};
 
-    axios.post('http://localhost:3001/api/updateVideo', {
+      data.forEach((value, key) => { object[key] = value });
+      let objIdToUpdate = object._id;
+      let views = object.count + 1;
+     
+      axios.post("http://localhost:9000/api/updateVideo", {
+        _id: objIdToUpdate,
+        count: views 
+      })
+    };
 
-    });
-
-  }
+  
 
   handleDeleteSubmit(event) {
+    const data = new FormData(event.target);
+    let object = {};
+
+    data.forEach((value, key) => { object[key] = value });
+
+    let objIdToDelete = object._id;
+
     axios.delete('http://localhost:9000/api/deleteVideo', {
       params: {
-        "name": "This video belongs to Group Nine",
+        _id: objIdToDelete,
       }
     })
   }
 
   handleReportSubmit(event) {
     event.preventDefault();
-    var data = new FormData(event.target);
-    var object = {};
-    data.forEach((value, key) => { object[key] = value });
-    var json = JSON.stringify(object);
 
-    console.log("this is what the data looks like if you " + json)
+    const data = new FormData(event.target);
+    let object = {};
+
+    data.forEach((value, key) => { object[key] = value });
+
+    let idLookup = object._id
 
     axios.get('http://localhost:9000/api/getVideos', {
-    });
+        params: {
+          _id: idLookup,
+
+        }
+      })
+      .then(function (response) {
+        console.log("Viewed this many times", response.count);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 
   componentDidMount() {
-
     this.getVideosFromDb();
 
   }
@@ -99,52 +130,69 @@ class App extends Component {
     const { videoData } = this.state;
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <h2 className="App-title">MEDIA MGMT</h2>
-          <img src={logoWhite} className="App-logo-white" alt="logo" />
-          <img src={logoBlack} className="App-logo" alt="logo" />
-          <div className="App-owner"> <span>for</span> group nine media</div>
-        </header>
-        <h2>TOP THREE MOST POPULAR VIDEOS</h2>
-        <tab>
-          {videoData.length <= 0 ? "NO DB ENTRIES YET" : videoData.map(video => (
-            <li style={{ padding: "10px 20px 0 40px", listStyleType: "none", textAlign: "left" }} key={video._id}>
-              <span style={{ color: "gray" }}> id: </span> {video._id} <br />
-              <span style={{ color: "gray" }}> name: </span> {video.name} <br />
-              <span style={{ color: "gray" }}> data: </span> {video.brand} <br />
-              <span style={{ color: "gray" }}> viewed: </span> {video.count} <span style={{ color: "gray" }}> times</span>
-            </li>
-          ))}
-        </tab>
-        <form onSubmit={this.handleCreateSubmit}>
-          <label htmlFor="videotitle">Enter Video Title</label>
-          <input id="name" name="name" type="text" />
-          <label htmlFor="date">Enter Publish Date</label>
-          <input id="date" name="publish_date" type="text" />
-          <label htmlFor="videotitle">Enter Brand</label>
-          <input id="brand" name="brand" type="text" />
-          <button>Create Video!</button>
-        </form>
-        <form onSubmit={this.handleDeleteSubmit}>
-          <label htmlFor="_id">Enter Id</label>
-          <input id="_id" name="_id" type="text" />
-          <button>Delete Video!</button>
-        </form>
-        <form onSubmit={this.handleUpdateSubmit}>
-          <label htmlFor="name">Enter Video</label>
-          <input id="name" name="name" type="text" />
-
-          <label htmlFor="_id">Enter Id</label>
-          <input id="_id" name="_id" type="text" />
-          <button>View A Video, Increase its Views</button>
-        </form>
-        <form onSubmit={this.handleReportSubmit}>
-          <label htmlFor="name">Run a Report</label>
-          <input id="name" name="name" type="text" />
-          <button>Get Report!</button>
-        </form>
-      </div>
+            <div className="App">
+              <header className="App-header">
+                <h2 className="App-title">MEDIA MGMT</h2>
+                <img src={logoWhite} className="App-logo-white" alt="logo" />
+                <img src={logoBlack} className="App-logo" alt="logo" />
+                <div className="App-owner"> <span>for</span> group nine media</div>
+              </header>
+                <div className="container">
+                <div className="row top-buffer">
+                    <div className="col-md-3">
+                      <form onSubmit={this.handleCreateSubmit}>
+                        <label htmlFor="videotitle">Create A Video</label>
+                        <input id="name" name="name" type="text" placeholder="Enter Title"/>
+                        <input id="date" name="publish_date" type="text" placeholder="Enter Date"/>
+                        <input id="brand" name="brand" type="text" placeholder="Enter Brand"/>
+                        <button className="btn btn-success">Create</button>
+                      </form>
+                  </div>
+                  <div className="col-md-3">
+                    <form onSubmit={this.handleUpdateSubmit}>
+                    <div class="form-group">
+                      <label htmlFor="name">View A Video</label>
+                      <input id="_id" name="_id" type="text" placeholder="Enter Video ID"/>
+                      <button className="btn btn-info">View</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="col-md-3">
+                    <form onSubmit={this.handleReportSubmit}>
+                    <div class="form-group">
+                      <label htmlFor="name">Run a Report</label>
+                      <input id="name" name="name" type="text" placeholder="Enter Video ID" />
+                      <button className="btn btn-warning">Report</button>
+                      </div>
+                    </form>
+                  </div>
+                  <div className="col-md-3">
+                    <form id="delete-form" onSubmit={this.handleDeleteSubmit}>
+                    <div class="form-group">
+                      <label htmlFor="_id">Delete A Video</label>
+                      <input id="_id" name="_id" type="text" placeholder="Enter Video ID"/>
+                      <button className="btn btn-danger">Delete Video</button>
+                      </div>
+                      </form>
+                  </div>
+                </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                    <h2>MOST POPULAR VIDEOS</h2>
+                    <ul>
+                      {videoData.length <= 0 ? "NO DB ENTRIES YET" : videoData.map(video => (
+                        <li class="list-item" style={{listStyleType: "none", textAlign: "left" }} key={video._id}>
+                          <span style={{ color: "gray" }}> id: </span> {video._id} <br />
+                          <span style={{ color: "gray" }}> name: </span> {video.name} <br />
+                          <span style={{ color: "gray" }}> data: </span> {video.brand} <br />
+                          <span style={{ color: "gray" }}> viewed: </span> {video.count} <span style={{ color: "gray" }}> times</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
     );
   }
 }
