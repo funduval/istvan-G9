@@ -1,14 +1,6 @@
 
 >I removed the reference to the docker mongo instance in docker-compose.yml 
 >and instead provisioned my own remote mongo server, using mlab. 
->The pword for the mlab url is in the .env file, but I won't chance it, and will leave it here:
-
-`mongodb://test-user:t35tpw0rd@ds229878.mlab.com:29878/funda-test
-`
-
->The above mongo db instance works in the app.
-
-### It Works On My Machine
 
 >To run this project locally, follow these steps:
 
@@ -32,14 +24,7 @@
 
 >React app is viewable on localhost:3000
 
-### SUMMARY
-###### I attempted to make a fullstack app with CRUD operations and a working backend. 
-###### However, in its unfinished state, you can only Create new videos with this, and view them in the UI.
 
-### CHALLENGES
-###### I struggled for a full day with docker (I know, working backwards!) and another full day with building the routes and posting the data correctly (I really wanted to use the FormData object, as a minimalistic approach, but it only seemingly returns an object --this took me a while to work through.)
-
-###### I am afraid I have to submit an unfinished project. I have a heavy lift, in terms of coding obligations at work, and I can't commit any further to this. I appreciate the time and consideration you extended to me. Thank you for the opportunity to challenge myself in this way--it will prove very useful!!!!
 
 ###### Best wishes,
 
